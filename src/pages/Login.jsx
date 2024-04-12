@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { UserProvider, useUser } from "../context/UserContext";
 // import { createUser } from '../services/userAPI';
-import Loading from '../components/Loading';
 // import './Login.css';
 
 const Login = () => {
@@ -10,6 +10,9 @@ const Login = () => {
     password: '',
   })
 
+  const { onLogin } = useUser();
+  const navigate = useNavigate();
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -17,7 +20,9 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    console.log(formData.email);
+    onLogin(formData.email);
+    navigate('/search');
   }
 
   return (
