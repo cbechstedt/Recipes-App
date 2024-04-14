@@ -6,7 +6,6 @@ export const UserProvider = ({ children }) => {
   const [email, setEmail] = useState('');
 
   const onLogin = (email) => {
-    console.log(email);
     setEmail(email);
   };
 

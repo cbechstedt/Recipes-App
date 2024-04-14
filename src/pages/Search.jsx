@@ -28,20 +28,18 @@ const Search = () => {
   const minSearchLength = 2;
 
   return (
-    <div>
+    <div className='content'>
       <Header />
 
       {loading ? <Loading /> : (
-        <form>
+        <form className='form'>
           <input
-            data-testid="search-artist-input"
             type="text"
             placeholder="Nome do Artista"
             onChange={handleChange}
             value={inputSearch}
           />
           <button
-            data-testid="search-artist-button"
             type="submit"
             onClick={handleClick}
             disabled={inputSearch.length < minSearchLength}
@@ -51,23 +49,23 @@ const Search = () => {
         </form>
       )}
 
-      {apiResponse && <p>{`Resultado de álbuns de: ${savedArtist}`}</p>}
+      <div className='cards-list'>
+        {apiResponse && <p>{`Resultado de álbuns de: ${savedArtist}`}</p>}
 
-      {albumsList.length > 1 ? (
-        albumsList.map((album) => (
-          <section key={album.collectionId}>
-            <img src={album.artworkUrl100} alt="album" />
-            <p>{album.collectionName}</p>
-            <p>{album.artistName}</p>
-            <Link
-              data-testid={`link-to-album-${album.collectionId}`}
-              to={`/album/${album.collectionId}`}
-            >
-              Acessar álbum
-            </Link>
-          </section>
-        ))
-      ) : <p>Nenhum álbum foi encontrado</p>}
+        {albumsList.length > 1 ? (
+          albumsList.map((album) => (
+            <section className='music-card' key={album.collectionId}>
+              <img src={album.artworkUrl100} alt="album" />
+              <p>{album.collectionName}</p>
+              <p>{album.artistName}</p>
+              <Link to={`/album/${album.collectionId}`}>
+                Acessar álbum
+              </Link>
+            </section>
+          ))
+        ) : <p>Nenhum álbum foi encontrado</p>}
+
+      </div>
 
     </div>
   );
