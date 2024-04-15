@@ -52,7 +52,7 @@ const Search = () => {
       <div className='cards-list'>
         {apiResponse && <p>{`Resultado de álbuns de: ${savedArtist}`}</p>}
 
-        {albumsList.length > 1 ? (
+        {albumsList.length > 0 ? (
           albumsList.map((album) => (
             <section className='music-card' key={album.collectionId}>
               <img src={album.artworkUrl100} alt="album" />
@@ -63,8 +63,9 @@ const Search = () => {
               </Link>
             </section>
           ))
-        ) : <p>Nenhum álbum foi encontrado</p>}
-
+        ) : null}
+        {!loading && !apiResponse && <p>Pesquise por um álbum para começar</p>}
+        {!loading && apiResponse && albumsList.length === 0 && <p>Nenhum álbum foi encontrado</p>}
       </div>
 
     </div>
