@@ -26,11 +26,11 @@ const Album = () => {
   }, [id]);
 
   return (
-    <div data-testid="page-album">
+    <div>
       <Header />
-      <div>
-        <h2 data-testid="artist-name">{album.artistName}</h2>
-        <h3 data-testid="album-name">{album.collectionName}</h3>
+      <div className='songs-list'>
+        <h2>{album.artistName}</h2>
+        <h3>{album.collectionName}</h3>
 
         {musics.map((music) => (
           <MusicCard

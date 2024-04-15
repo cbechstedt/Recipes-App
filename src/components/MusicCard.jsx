@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
+import { addFavorite, getFavorites, removeFavorite } from '../services/favoritesSongs';
 
 const MusicCard = ({ musics, trackName, previewUrl, trackId }) => {
   const [favoriteChecked, setFavoriteChecked] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleChecked = async ({ target }) => {
+  useEffect(() => {
+    const favorites = getFavorites();
+    const isFavorite = favorites.some((music) => music.trackId === trackId);
+    setFavoriteChecked(isFavorite);
+  }, [trackId]);
+
+  const handleChecked = ({ target }) => {
     const songChecked = musics.find((music) => music.trackId === Number(target.id));
-    setLoading(true);
-    // await addSong(songChecked);
-    setLoading(false);
+
+    if (favoriteChecked) {
+      removeFavorite(songChecked.trackId);
+      setFavoriteChecked(false);
+      return;
+    }
+
+    addFavorite(songChecked);
     setFavoriteChecked(true);
-    // await getFavoriteSongs();
   };
 
   return (
