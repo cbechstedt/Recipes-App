@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
-import { addFavorite, getFavorites, removeFavorite } from '../services/favoritesSongs';
+import { addFavorite, getAllFavorites, getFavorites, removeFavorite } from '../services/favoritesSongs';
+import { useUser } from '../context/UserContext';
 
 const MusicCard = ({ musics, trackName, previewUrl, trackId }) => {
   const [favoriteChecked, setFavoriteChecked] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const { email } = useUser();
+
   useEffect(() => {
-    const favorites = getFavorites();
+    const favorites = getFavorites(email);
     const isFavorite = favorites.some((music) => music.trackId === trackId);
     setFavoriteChecked(isFavorite);
   }, [trackId]);
@@ -17,12 +20,12 @@ const MusicCard = ({ musics, trackName, previewUrl, trackId }) => {
     const songChecked = musics.find((music) => music.trackId === Number(target.id));
 
     if (favoriteChecked) {
-      removeFavorite(songChecked.trackId);
+      removeFavorite(email, songChecked.trackId);
       setFavoriteChecked(false);
       return;
     }
 
-    addFavorite(songChecked);
+    addFavorite(email, songChecked);
     setFavoriteChecked(true);
   };
 

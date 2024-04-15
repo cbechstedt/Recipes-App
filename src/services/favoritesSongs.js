@@ -1,29 +1,29 @@
-// Função para adicionar uma música aos favoritos
-export const addFavorite = (music) => {
-  // Recupera a lista de favoritos do armazenamento local, se existir
-  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-  // Adiciona a nova música à lista de favoritos
+// Adiciona uma música favorita ao localStorage
+export const addFavorite = (userEmail, music) => {
+  let favorites = JSON.parse(localStorage.getItem(userEmail)) || [];
   favorites.push(music);
-
-  // Atualiza a lista de favoritos no armazenamento local
-  localStorage.setItem('favorites', JSON.stringify(favorites));
+  localStorage.setItem(userEmail, JSON.stringify(favorites));
 };
 
-// Função para obter todas as músicas favoritas
-export const getFavorites = () => {
-  // Recupera a lista de favoritos do armazenamento local, se existir
-  return JSON.parse(localStorage.getItem('favorites')) || [];
+// Obtém todas as músicas favoritas de um usuário do localStorage
+export const getFavorites = (userEmail) => {
+  return JSON.parse(localStorage.getItem(userEmail)) || [];
 };
 
-// Função para remover uma música dos favoritos
-export const removeFavorite = (musicId) => {
-  // Recupera a lista de favoritos do armazenamento local, se existir
-  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+// Função para obter todas as músicas favoritas de todos os usuários
+export const getAllFavorites = () => {
+  const allFavorites = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const userEmail = localStorage.key(i);
+    const favorites = JSON.parse(localStorage.getItem(userEmail)) || [];
+    allFavorites.push({ userEmail, favorites });
+  }
+  return allFavorites;
+};
 
-  // Filtra a lista de favoritos para remover a música com o ID fornecido
+// Remove uma música favorita de um usuário do localStorage
+export const removeFavorite = (userEmail, musicId) => {
+  let favorites = JSON.parse(localStorage.getItem(userEmail)) || [];
   favorites = favorites.filter((music) => music.trackId !== musicId);
-
-  // Atualiza a lista de favoritos no armazenamento local
-  localStorage.setItem('favorites', JSON.stringify(favorites));
+  localStorage.setItem(userEmail, JSON.stringify(favorites));
 };
