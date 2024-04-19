@@ -1,8 +1,9 @@
 import React from 'react';
 import Header from '../components/Header';
 import { getFavorites } from '../services/favoritesSongs';
-import MusicCard from '../components/MusicCard';
+import PlayCard from '../components/PlayCard';
 import { useUser } from '../context/UserContext';
+import '../styles/Favorites.css'
 
 const Favorites = () => {
   const { email } = useUser();
@@ -10,24 +11,27 @@ const Favorites = () => {
   const favorites = getFavorites(email);
 
   return (
-    <div>
+    <div className='content'>
       <Header />
-      <h2>Favorite Songs</h2>
-      {favorites.length > 0 ? (
-        <div className="favorites-list">
-          {favorites.map((music) => (
-            <MusicCard
-              key={music.trackId}
-              trackName={music.trackName}
-              previewUrl={music.previewUrl}
-              trackId={music.trackId}
-              musics={favorites}
-            />
-          ))}
-        </div>
-      ) : (
-        <p>No favorite songs yet.</p>
-      )}
+      <div>
+        <h2 className='favorite-title'>Favorite Songs</h2>
+        {favorites.length > 0 ? (
+          <div className="favorite-list">
+            {favorites.map((music) => (
+              <PlayCard
+                key={music.trackId}
+                trackName={music.trackName}
+                previewUrl={music.previewUrl}
+                trackId={music.trackId}
+                musics={favorites}
+                artistName={music.album.artistName}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>No favorite songs yet.</p>
+        )}
+      </div>
     </div>
   );
 };

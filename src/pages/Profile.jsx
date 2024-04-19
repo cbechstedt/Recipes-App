@@ -3,7 +3,7 @@ import Header from '../components/Header'
 
 const Profile = () => {
   return (
-    <div><Header /></div>
+    <div className='content'><Header /></div>
   )
 }
 

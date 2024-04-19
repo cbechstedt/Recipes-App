@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import '../styles/Header.css'
 
 const Header = () => {
   const { email } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    navigate('/');
+  }
 
   return (
-    <header className='header-content'>
-      <span className='user-content'>{`Bem vindo, ${email}`}</span>
-      <div className='links-content'>
-        <Link to="/search">Pesquisar</Link>
-        <Link to="/favorites">Favoritas</Link>
-        <Link to="/profile">Perfil</Link>
+    <div className='header-content'>
+      <div className='account'>
+        <span className='user-content'>
+          {`Welcome, ${email}`}
+        </span>
+        <button className='btn-logout' onClick={handleLogOut}>
+          Log out
+        </button>
       </div>
-    </header>
+      <div className='links-content'>
+        <Link to="/search">Search</Link>
+        <Link to="/favorites">Favorites</Link>
+        <Link to="/profile">Profile</Link>
+      </div>
+    </div>
   );
 };
 

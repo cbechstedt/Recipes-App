@@ -1,6 +1,36 @@
 .header-content {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  color: rgb(255, 240, 240);
+  gap: 50px;
+  margin-top: 100px;
+}
+
+.user-content {
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
+}
+
+.links-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.btn-logout {
+  display: flex;
+  font-size: 12px;
+}
+
+.account {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }

@@ -1,0 +1,22 @@
+.play-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.play-fav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.song-artist {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.artist {
+  font-size: small;
+}

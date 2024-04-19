@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
-import MusicCard from '../components/MusicCard';
-import { useParams } from 'react-router-dom';
+import PlayCard from '../components/PlayCard';
+import { Link, useParams } from 'react-router-dom';
+import '../styles/Album.css'
 
 const Album = () => {
   const [album, setAlbum] = useState([]);
@@ -29,16 +30,22 @@ const Album = () => {
     <div>
       <Header />
       <div className='songs-list'>
-        <h2>{album.artistName}</h2>
-        <h3>{album.collectionName}</h3>
-
+        <div>
+          <Link to={album.artistViewUrl}>
+            <h2 className='album-artist-name'>{album.artistName}</h2>
+          </Link>
+          <Link to={album.collectionViewUrl}>
+            <h3 className='album-collection-name'>{album.collectionName}</h3>
+          </Link>
+        </div>
         {musics.map((music) => (
-          <MusicCard
+          <PlayCard
             key={music.trackId}
             trackId={music.trackId}
             trackName={music.trackName}
             previewUrl={music.previewUrl}
             musics={musics}
+            album={album}
           />
         ))}
       </div>

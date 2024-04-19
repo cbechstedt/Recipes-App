@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from "../context/UserContext";
 // import { createUser } from '../services/userAPI';
-// import './Login.css';
+import '../styles/Login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -41,7 +41,7 @@ const Login = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form" onSubmit={handleSubmit}>
       <input
         type="email"
         name="email"
@@ -59,10 +59,10 @@ const Login = () => {
       <button
         type="submit"
       >
-        Entrar
+        Log in
       </button>
       {inputErrorMessage && <p>{inputErrorMessage}</p>}
-      <p>Não possui conta? Cadastre-se aqui</p>
+      <p>Not registered yet? <Link to='/register'>Sign up.</Link></p>
     </form>
 
   );
