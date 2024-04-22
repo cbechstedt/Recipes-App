@@ -51,7 +51,7 @@ const Search = () => {
           </form>
         )}
 
-        {apiResponse && <p>{`Albums result for ${savedArtist}`}</p>}
+        {apiResponse && <p className='p-search'>{`Albums result for ${savedArtist}`}</p>}
         <div className='cards-list'>
 
           {albumsList.length > 0 ? (

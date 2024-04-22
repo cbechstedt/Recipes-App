@@ -1,23 +1,25 @@
 .body-content {
   display: flex;
   flex-direction: column;
-  margin: 50px;
   width: auto;
 }
 
 .cards-list {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 20px;
   color: rgb(255, 240, 240);
   width: 100%;
-
 }
 
 .music-card {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  width: 10rem;
+  width: 6rem;
   height: fit-content;
   padding: 0.7rem;
   border-radius: 0.6rem;
@@ -72,4 +74,10 @@
 .input-search {
   height: 25px;
   border-radius: 4px;
+}
+
+.p-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
