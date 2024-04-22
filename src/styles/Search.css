@@ -26,6 +26,18 @@
   background-color: rgb(24, 24, 24);
 }
 
+/* Media query para telas maiores (computadores) */
+@media (min-width: 768px) {
+  .cards-list {
+    gap: 30px; /* Aumente o espaçamento entre os cartões */
+  }
+
+  .music-card {
+    width: 10rem; /* Aumente o tamanho dos cartões */
+    padding: 1rem; /* Aumente o preenchimento dos cartões */
+  }
+}
+
 .music-card:hover {
   background-color: rgb(38, 38, 38);
 }
