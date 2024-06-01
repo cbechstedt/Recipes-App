@@ -1,21 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import { getFavorites } from '../services/favoritesSongs';
 import PlayCard from '../components/PlayCard';
 import { useUser } from '../context/UserContext';
-import '../styles/Favorites.css'
+import { getUserFavorites } from '../services/apiService';
+import '../styles/Favorites.css';
+import Loading from '../components/Loading';
 
 const Favorites = () => {
-  const { email } = useUser();
+  const { userId } = useUser();
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const favorites = getFavorites(email);
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const data = await getUserFavorites(userId);
+        setFavorites(data);
+      } catch (error) {
+        console.error("Failed to fetch user favorites", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFavorites();
+  }, [userId]);
 
   return (
     <div className='content'>
       <Header />
       <div>
         <h2 className='favorite-title'>Favorite Songs</h2>
-        {favorites.length > 0 ? (
+        {loading ? (
+          <Loading />
+        ) : favorites.length > 0 ? (
           <div className="favorite-list">
             {favorites.map((music) => (
               <PlayCard
@@ -23,8 +41,8 @@ const Favorites = () => {
                 trackName={music.trackName}
                 previewUrl={music.previewUrl}
                 trackId={music.trackId}
-                musics={favorites}
-                artistName={music.album.artistName}
+                artistName={music.artistName}
+                album={music.album}
               />
             ))}
           </div>

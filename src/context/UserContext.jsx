@@ -3,17 +3,17 @@ import React, { createContext, useState, useContext } from 'react';
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [email, setEmail] = useState('');
+  const [user, setUser] = useState({ userId: null, email: '' });
 
-  const onLogin = (email) => {
-    setEmail(email);
+  const onLogin = (userId, email) => {
+    setUser({ userId, email });
   };
 
   const values = {
-    email,
-    setEmail,
-    onLogin
-  }
+    userId: user.userId,
+    email: user.email,
+    onLogin,
+  };
 
   return (
     <UserContext.Provider value={values}>

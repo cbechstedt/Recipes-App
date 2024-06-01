@@ -1,33 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
-import { addFavorite, getAllFavorites, getFavorites, removeFavorite } from '../services/favoritesSongs';
+import { addFavorite, removeFavorite, getUserFavorites } from '../services/apiService';
 import { useUser } from '../context/UserContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import '../styles/PlayCard.css'
+import '../styles/PlayCard.css';
 
-const PlayCard = ({ musics, trackName, previewUrl, trackId, artistName, album }) => {
+const PlayCard = ({ trackName, previewUrl, trackId, artistName, album }) => {
   const [favoriteChecked, setFavoriteChecked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { userId } = useUser();
 
-  const { email } = useUser();
   useEffect(() => {
-    const favorites = getFavorites(email);
-    const isFavorite = favorites.some((music) => music.trackId === trackId);
-    setFavoriteChecked(isFavorite);
-  }, [trackId]);
+    const checkFavorite = async () => {
+      try {
+        const favorites = await getUserFavorites(userId);
+        const isFavorite = favorites.some((music) => music.trackId === trackId);
+        setFavoriteChecked(isFavorite);
+      } catch (error) {
+        console.error("Failed to fetch user favorites", error);
+      }
+    };
 
-  const handleHeartClick = () => {
-    if (favoriteChecked) {
-      removeFavorite(email, trackId);
-      setFavoriteChecked(false);
-    } else {
-      addFavorite(email, { trackId, trackName, previewUrl, album });
-      setFavoriteChecked(true);
-      toast.success('You added this song to your favorites');
+    checkFavorite();
+  }, [trackId, userId]);
+
+  const handleHeartClick = async () => {
+    setLoading(true);
+    try {
+      if (favoriteChecked) {
+        await removeFavorite(userId, trackId);
+        setFavoriteChecked(false);
+        toast.success('Removed from favorites');
+      } else {
+        await addFavorite(userId, { trackId, trackName, previewUrl, album });
+        setFavoriteChecked(true);
+        toast.success('Added to favorites');
+      }
+    } catch (error) {
+      console.error("Failed to toggle favorite", error);
+      toast.error('Failed to update favorites');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,7 +64,6 @@ const PlayCard = ({ musics, trackName, previewUrl, trackId, artistName, album })
           style={{ cursor: 'pointer', color: favoriteChecked ? 'inherit' : '#404040' }}
           onClick={handleHeartClick}
         />
-
       </div>
       {loading ? <Loading /> : null}
     </div>
@@ -55,10 +71,11 @@ const PlayCard = ({ musics, trackName, previewUrl, trackId, artistName, album })
 };
 
 PlayCard.propTypes = {
-  musics: PropTypes.arrayOf(PropTypes.object),
-  trackName: PropTypes.string,
-  previewUrl: PropTypes.string,
-  trackId: PropTypes.number,
-}.isRequired;
+  trackName: PropTypes.string.isRequired,
+  previewUrl: PropTypes.string.isRequired,
+  trackId: PropTypes.number.isRequired,
+  artistName: PropTypes.string.isRequired,
+  album: PropTypes.object.isRequired,
+};
 
 export default PlayCard;

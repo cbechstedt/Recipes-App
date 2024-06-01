@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from "../context/UserContext";
-// import { createUser } from '../services/userAPI';
 import '../styles/Login.css';
 
 const Login = () => {
@@ -62,7 +61,7 @@ const Login = () => {
         Log in
       </button>
       {inputErrorMessage && <p>{inputErrorMessage}</p>}
-      <p>Not registered yet? <Link to='/register'>Sign up.</Link></p>
+      <p>Not registered yet? <Link to='/users'>Sign up.</Link></p>
     </form>
 
   );
