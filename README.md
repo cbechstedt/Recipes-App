@@ -1,8 +1,15 @@
-# React + Vite
+# Music-Play-frontend
+This project is a frontend application that allows users to search for and listen to music previews by searching for artists. This application integrates with the iTunes API to provide music data and previews.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tools used
+React | Vite | Javascript | CSS 
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+To install the project's dependencies, execute the following command:
+```bash
+npm install
+```
+To run the application:
+```bash
+npm run dev
+```
