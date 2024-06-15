@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from "../context/UserContext";
+import { login } from '../services/backendAPI';
 import '../styles/Login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
+  });
   const [inputErrorMessage, setInputErrorMessage] = useState('');
 
   const { onLogin } = useUser();
-
   const navigate = useNavigate();
-
   const minPassword = 6;
 
   const handleChange = (event) => {
@@ -27,7 +26,7 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (formData.password.length < minPassword) {
@@ -35,9 +34,14 @@ const Login = () => {
       return;
     }
 
-    onLogin(formData.email);
-    navigate('/search');
-  }
+    try {
+      const userData = await login(formData.email, formData.password);
+      onLogin(userData);
+      navigate('/search');
+    } catch (error) {
+      setInputErrorMessage('Invalid email or password.');
+    }
+  };
 
   return (
     <form className="form" onSubmit={handleSubmit}>
@@ -55,15 +59,10 @@ const Login = () => {
         placeholder="password"
         onChange={handleChange}
       />
-      <button
-        type="submit"
-      >
-        Log in
-      </button>
+      <button type="submit">Log in</button>
       {inputErrorMessage && <p>{inputErrorMessage}</p>}
-      <p>Not registered yet? <Link to='/users'>Sign up.</Link></p>
+      <p>Not registered yet? <Link to='/register'>Sign up.</Link></p>
     </form>
-
   );
 };
 

@@ -4,7 +4,7 @@ import { useUser } from '../context/UserContext';
 import '../styles/Header.css'
 
 const Header = () => {
-  const { email } = useUser();
+  const { user: {username} } = useUser();
   const navigate = useNavigate();
 
   const handleLogOut = () => {
@@ -15,7 +15,7 @@ const Header = () => {
     <div className='header-content'>
       <div className='account'>
         <span className='user-content'>
-          {`Welcome, ${email}`}
+          {`Welcome, ${username}`}
         </span>
         <button className='btn-logout' onClick={handleLogOut}>
           Log out

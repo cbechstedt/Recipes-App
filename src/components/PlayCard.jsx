@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
-import { addFavorite, removeFavorite, getUserFavorites } from '../services/apiService';
+import { addFavorite, removeFavorite, getUserFavorites } from '../services/backendAPI';
 import { useUser } from '../context/UserContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +12,8 @@ import '../styles/PlayCard.css';
 const PlayCard = ({ trackName, previewUrl, trackId, artistName, album }) => {
   const [favoriteChecked, setFavoriteChecked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { userId } = useUser();
+  const { user: { id: userId } } = useUser();
+
 
   useEffect(() => {
     const checkFavorite = async () => {

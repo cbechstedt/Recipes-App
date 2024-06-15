@@ -1,18 +1,16 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { register } from '../services/backendAPI';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     email: '',
     username: '',
     password: '',
-  })
+  });
   const [inputErrorMessage, setInputErrorMessage] = useState('');
 
-  // const { onLogin } = useUser();
-
   const navigate = useNavigate();
-
   const minPassword = 6;
 
   const handleChange = (event) => {
@@ -26,7 +24,7 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (formData.password.length < minPassword) {
@@ -34,9 +32,13 @@ const Register = () => {
       return;
     }
 
-    // onLogin(formData.email);
-    navigate('/login');
-  }
+    try {
+      await register(formData);
+      navigate('/login');
+    } catch (error) {
+      setInputErrorMessage('Error during registration.');
+    }
+  };
 
   return (
     <form className="form" onSubmit={handleSubmit}>
@@ -61,16 +63,11 @@ const Register = () => {
         placeholder="password"
         onChange={handleChange}
       />
-      <button
-        type="submit"
-      >
-        Sign up
-      </button>
+      <button type="submit">Sign up</button>
       {inputErrorMessage && <p>{inputErrorMessage}</p>}
-      <Link to='/login' ><button>Back to Login</button></Link>
+      <Link to='/login'><button>Back to Login</button></Link>
     </form>
-
   );
 };
 
-export default Register
+export default Register;

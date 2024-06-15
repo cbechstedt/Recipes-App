@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import PlayCard from '../components/PlayCard';
 import { useUser } from '../context/UserContext';
-import { getUserFavorites } from '../services/apiService';
+import { getUserFavorites } from '../services/backendAPI';
 import '../styles/Favorites.css';
 import Loading from '../components/Loading';
 
 const Favorites = () => {
-  const { userId } = useUser();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user: { id: userId } } = useUser();
 
   useEffect(() => {
     const fetchFavorites = async () => {

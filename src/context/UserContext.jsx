@@ -3,16 +3,16 @@ import React, { createContext, useState, useContext } from 'react';
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({ userId: null, email: '' });
+  const [user, setUser] = useState({}); // Estado inicial como objeto vazio
 
-  const onLogin = (userId, email) => {
-    setUser({ userId, email });
+  const onLogin = (userData) => {
+    setUser(userData);
   };
 
   const values = {
-    userId: user.userId,
-    email: user.email,
+    user,
     onLogin,
+    isLoggedIn: !!user && !!user.id // Verifica se o usuário está logado
   };
 
   return (

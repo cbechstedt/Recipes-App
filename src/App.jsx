@@ -22,7 +22,7 @@ function App() {
           <Route path='/album/:id' element={<Album />}></Route>
           <Route path='/favorites' element={<Favorites />}></Route>
           <Route path='/profile' element={<Profile />}></Route>
-          <Route path='/users' element={<Register />}></Route>
+          <Route path='/register' element={<Register />}></Route>
           <Route path='*' element={<Navigate to='/' />}></Route>
         </Routes>
       </UserProvider>
